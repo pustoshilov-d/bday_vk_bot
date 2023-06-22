@@ -1,16 +1,16 @@
-const {DATABASE_URL} = require('../config.js');
-const {Pool} = require('pg');
+import { DATABASE_URL } from '../config.js'
+import pkg from 'pg'
+const { Pool } = pkg
 
-module.exports = function createPool () {
-  try{
-    return new Pool({
+export const makeDBRequest = async (sql_string) => {
+  try {
+    const pool = new Pool({
       connectionString: DATABASE_URL,
-      ssl: {sslmode: 'require',
-        rejectUnauthorized: false
-      }
+      ssl: { sslmode: 'require', rejectUnauthorized: false },
     })
-  }
-  catch (e) {
-    console.log(e)
+    let res = await pool.query(sql_string)
+    return res
+  } catch (e) {
+    console.log(`error createPool ${e}`)
   }
 }

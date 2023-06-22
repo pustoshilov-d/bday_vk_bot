@@ -1,0 +1,15 @@
+module.exports = {
+  apps: [
+    {
+      name: "bday_vk_bot",
+      script: "./app.js",
+      cwd: "/apps/bday_bot/atmo-bithday-bot/",
+      env: { NODE_ENV: "production" },
+      ignore_watch: ["node_modules"],
+      log_date_format: "DD-MM-YYYY HH:mm Z",
+      watch: true,
+      autorestart: false,
+      cron_restart: "30 9 * * *",
+    },
+  ],
+};

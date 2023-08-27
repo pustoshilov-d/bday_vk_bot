@@ -1,5 +1,5 @@
 import { TIME } from '../config.js'
-import { checkDaysDB } from '../db/queries.js'
+import { checkDaysDB } from '../f_db/queries.js'
 
 export default async (hour, dateStr) => {
   try {

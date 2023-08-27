@@ -1,6 +1,6 @@
 import { API } from 'vk-io'
 
-import { getPeopleDB } from '../db/queries.js'
+import { getPeopleDB } from '../f_db/queries.js'
 import { EXTERNAL_DB_FLAG } from '../config.js'
 
 export default async (date, chat) => {

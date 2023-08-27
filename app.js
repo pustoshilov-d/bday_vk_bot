@@ -7,11 +7,11 @@ const app = express()
 app.use(urlencoded({ extended: true }))
 app.use(json())
 
-import goCongratulate from './vk/goCongratulate.js'
-import getServerTime from './vk/getServerTime.js'
-import { getChats, getCong, getButton, addDayDB } from './db/queries.js'
-import getPeople from './vk/getPeople.js'
-import sendCong from './vk/sendCong.js'
+import goCongratulate from './f_vk/goCongratulate.js'
+import getServerTime from './f_vk/getServerTime.js'
+import { getChats, getCong, getButton, addDayDB } from './f_db/queries.js'
+import getPeople from './f_vk/getPeople.js'
+import sendCong from './f_vk/sendCong.js'
 
 import { NODE_ENV, TEST_DATE } from './config.js'
 

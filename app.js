@@ -27,7 +27,7 @@ async function main() {
     console.log('\nСейчас ', time)
     const fullDateStr =
       time.getDate().toString() + '.' + (time.getMonth() + 1).toString() + '.' + time.getFullYear().toString()
-    let dateStr = time.getDate().toString() + '.' + (time.getMonth() + 1).toString().toString()
+    let dateStr = time.getDate().toString() + '.' + (time.getMonth() + 1).toString()
     if (NODE_ENV === 'development' && TEST_DATE !== '') {
       dateStr = TEST_DATE
     }
@@ -41,7 +41,7 @@ async function main() {
       for (const curChat of await getChats()) {
         console.log('\nРаботаем с: ', curChat.organization)
 
-        const people = await getPeople(dateStr, curChat)
+        const people = await getPeople(dateStr, curChat, time)
 
         if (people.size === 0) console.log('Сегодня нет ДР(')
         else {
@@ -57,21 +57,23 @@ async function main() {
 
           text += await getCong(sex, curChat.congr_pack)
 
-          let buttonNames = ''
-          for (const [id_vk, value] of people) {
-            buttonNames += '@' + value[2] + ', '
-          }
-          buttonNames = buttonNames.slice(0, -2).replace(/,\s([^,]+)$/, ' и $1')
-          let buttonText = await getButton(sex, curChat.buttons_pack)
-          let button = ''
+          // buttons in dev
+          let button = 'test'
+          // let buttonNames = ''
+          // for (const [id_vk, value] of people) {
+          //   buttonNames += '@' + value[2] + ', '
+          // }
+          // buttonNames = buttonNames.slice(0, -2).replace(/,\s([^,]+)$/, ' и $1')
+          // let buttonText = await getButton(sex, curChat.buttons_pack)
+          // let button = ''
 
-          if ((buttonText + buttonNames + ' 🎉').length < 40) {
-            button = buttonText + buttonNames + ' 🎉'
-          } else if (('Поздравляю ' + buttonNames + ' 🎉').length < 40) {
-            button = 'Поздравляю ' + buttonNames + ' 🎉'
-          } else {
-            button = buttonText + ' 🎉'
-          }
+          // if ((buttonText + buttonNames + ' 🎉').length < 40) {
+          //   button = buttonText + buttonNames + ' 🎉'
+          // } else if (('Поздравляю ' + buttonNames + ' 🎉').length < 40) {
+          //   button = 'Поздравляю ' + buttonNames + ' 🎉'
+          // } else {
+          //   button = buttonText + ' 🎉'
+          // }
 
           console.log('Отправляем поздравление: ', text, '/n', button)
           await sendCong(curChat, text, button)
@@ -86,6 +88,6 @@ async function main() {
       console.log('Ещё не время для поздравлений')
     }
   } catch (e) {
-    console.log(e)
+    throw new Error(`Ошибка в main ${e}`)
   }
 }

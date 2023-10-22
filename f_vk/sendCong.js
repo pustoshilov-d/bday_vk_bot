@@ -1,19 +1,18 @@
 import { API } from 'vk-io'
 import { TEST_TOKEN, TEST_GROUP, TEST_CHAT, TEST_PHOTO, NODE_ENV } from '../config.js'
 
-export default async (chat, text, buttonText) => {
+export default async (chat, text, attachment) => {
   const api = new API({
     token: chat.group_token,
   })
 
-  let group_id, peer_id, message, attachment, keyboard, access_token
+  let group_id, peer_id, message, keyboard, access_token
 
   if (NODE_ENV === 'development') {
     access_token = TEST_TOKEN
     group_id = TEST_GROUP
     peer_id = TEST_CHAT
     message = text
-    attachment = chat.photo
     keyboard = JSON.stringify({
       one_time: false,
       inline: true,
@@ -22,7 +21,7 @@ export default async (chat, text, buttonText) => {
           {
             action: {
               type: 'text',
-              label: buttonText,
+              label: "test",
               payload: { command: 'congr' },
             },
             color: 'positive',
@@ -35,7 +34,6 @@ export default async (chat, text, buttonText) => {
     group_id = chat.group_id
     peer_id = chat.chat_id_in_group
     message = text
-    attachment = chat.photo
   }
 
   try {
@@ -52,7 +50,7 @@ export default async (chat, text, buttonText) => {
     console.log('Результат sendCong', res)
     return res
   } catch (err) {
-    console.log(`Ошибка в sendCong ${err}`)
+    console.log(`Ошибка в sendCong в organization=${chat.organization} peer_id=${peer_id} ${err}`)
     return
   }
 }

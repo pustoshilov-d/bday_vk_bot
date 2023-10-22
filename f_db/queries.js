@@ -44,15 +44,33 @@ export const getChats = async () => {
   }
 }
 
-export const getCong = async (sex, table_name) => {
+export const getCongText = async (sex, chat) => {
+  if (chat.congr_type == 'attachment') {
+    return chat.default_text
+  }
   try {
-    const sql_string = `SELECT ${sex} FROM ${table_name} ORDER BY RANDOM() LIMIT 1`
+    const sql_string = `SELECT ${sex} FROM ${chat.congr_pack} ORDER BY RANDOM() LIMIT 1`
     let res = await makeDBRequest(sql_string)
-    console.log('Результат getCong', res.rowCount)
+    console.log('Результат getCongText', res.rowCount)
 
     return res.rows[0][sex]
   } catch (err) {
-    console.log(`Error in getCong ${err}`)
+    console.log(`Error in getCongText ${err}`)
+  }
+}
+
+export const getCongAttachment = async (chat) => {
+  if (chat.congr_type == 'text') {
+    return chat.default_attachment
+  }
+  try {
+    const sql_string = `SELECT * FROM ${chat.congr_pack} ORDER BY RANDOM() LIMIT 1`
+    let res = await makeDBRequest(sql_string)
+    console.log('Результат getCongAttachment', res.rowCount)
+
+    return res.rows[0]['attachment']
+  } catch (err) {
+    console.log(`Error in getCongAttachment ${err}`)
   }
 }
 
